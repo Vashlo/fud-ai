@@ -200,6 +200,16 @@ fun FudAINavHost(
                         }
                     })
                 }
+                composable(FudAIRoutes.TODAY) {
+                    TabInset { TodayPlaceholderScreen() }
+                }
+                composable(FudAIRoutes.TRACK) {
+                    TabInset { TrackPlaceholderScreen() }
+                }
+                composable(FudAIRoutes.INSIGHTS) {
+                    TabInset { InsightsPlaceholderScreen() }
+                }
+
                 composable(FudAIRoutes.HOME) {
                     TabInset {
                         HomeScreen(
