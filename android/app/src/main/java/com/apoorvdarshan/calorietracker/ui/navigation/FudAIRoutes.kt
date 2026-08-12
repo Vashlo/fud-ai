@@ -25,5 +25,5 @@ object FudAIRoutes {
     val primaryTabs = listOf(TODAY, TRACK, INSIGHTS, PROGRESS)
 
     // Temporary legacy tab set. Keep this until the new shell is wired into NavHost.
-    val bottomTabs = listOf(HOME, PROGRESS, COACH, SETTINGS, WORKOUTS)
+    val bottomTabs = primaryTabs
 }

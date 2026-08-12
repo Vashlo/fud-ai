@@ -72,11 +72,10 @@ import kotlinx.coroutines.launch
 data class BottomTab(val route: String, val icon: ImageVector, @get:StringRes val labelRes: Int)
 
 val BottomTabs = listOf(
-    BottomTab(FudAIRoutes.HOME, Icons.Filled.Home, R.string.nav_home),
-    BottomTab(FudAIRoutes.PROGRESS, Icons.Filled.BarChart, R.string.nav_progress),
-    BottomTab(FudAIRoutes.COACH, Icons.Filled.Forum, R.string.nav_coach),
-    BottomTab(FudAIRoutes.SETTINGS, Icons.Filled.Settings, R.string.nav_settings),
-    BottomTab(FudAIRoutes.WORKOUTS, Icons.Filled.FitnessCenter, R.string.nav_workouts)
+    BottomTab(FudAIRoutes.TODAY, Icons.Filled.Home, R.string.nav_today),
+    BottomTab(FudAIRoutes.TRACK, Icons.Filled.FitnessCenter, R.string.nav_track),
+    BottomTab(FudAIRoutes.INSIGHTS, Icons.Filled.BarChart, R.string.nav_insights),
+    BottomTab(FudAIRoutes.PROGRESS, Icons.Filled.SportsGymnastics, R.string.nav_progress)
 )
 
 private val BarHeight = 72.dp

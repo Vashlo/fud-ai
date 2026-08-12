@@ -106,11 +106,11 @@ fun FudAINavHost(
 
     LaunchedEffect(quickActionRequest?.id, currentRoute) {
         if (quickActionRequest != null &&
-            currentRoute != FudAIRoutes.HOME &&
+            currentRoute != FudAIRoutes.TODAY &&
             currentRoute != FudAIRoutes.ONBOARDING
         ) {
-            nav.navigate(FudAIRoutes.HOME) {
-                popUpTo(FudAIRoutes.HOME) { inclusive = false }
+            nav.navigate(FudAIRoutes.TODAY) {
+                popUpTo(FudAIRoutes.TODAY) { inclusive = false }
                 launchSingleTop = true
             }
         }
@@ -172,11 +172,11 @@ fun FudAINavHost(
                         // is a no-op because NavController sees HOME at the top of
                         // the stack and skips re-emitting currentBackStackEntry, so
                         // the bar stays selected on the previous tab.
-                        if (target == FudAIRoutes.HOME) {
-                            nav.popBackStack(FudAIRoutes.HOME, inclusive = false)
+                        if (target == FudAIRoutes.TODAY) {
+                            nav.popBackStack(FudAIRoutes.TODAY, inclusive = false)
                         } else {
                             nav.navigate(target) {
-                                popUpTo(FudAIRoutes.HOME) { saveState = true }
+                                popUpTo(FudAIRoutes.TODAY) { saveState = true }
                                 launchSingleTop = true
                                 restoreState = true
                             }
@@ -189,19 +189,25 @@ fun FudAINavHost(
         Box(Modifier.fillMaxSize()) {
             NavHost(
                 navController = nav,
-                startDestination = if (startOnboarding) FudAIRoutes.ONBOARDING else FudAIRoutes.HOME
+                startDestination = if (startOnboarding) FudAIRoutes.ONBOARDING else FudAIRoutes.TODAY
             ) {
                 composable(FudAIRoutes.ONBOARDING) {
                     OnboardingScreen(container = container, onComplete = {
                         settingsViewModel.refreshAiConfiguration()
-                        nav.navigate(FudAIRoutes.HOME) {
+                        nav.navigate(FudAIRoutes.TODAY) {
                             popUpTo(FudAIRoutes.ONBOARDING) { inclusive = true }
                             launchSingleTop = true
                         }
                     })
                 }
                 composable(FudAIRoutes.TODAY) {
-                    TabInset { TodayPlaceholderScreen() }
+                    TabInset {
+                        HomeScreen(
+                            container = container,
+                            quickActionRequest = quickActionRequest,
+                            onQuickActionHandled = onQuickActionHandled
+                        )
+                    }
                 }
                 composable(FudAIRoutes.TRACK) {
                     TabInset { TrackPlaceholderScreen() }
