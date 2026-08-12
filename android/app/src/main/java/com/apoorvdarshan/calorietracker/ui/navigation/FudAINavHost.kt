@@ -47,6 +47,15 @@ import com.apoorvdarshan.calorietracker.ui.workouts.WorkoutsScreen
 import com.apoorvdarshan.calorietracker.models.WorkoutTabMode
 import com.apoorvdarshan.calorietracker.models.QuickActionRequest
 import com.apoorvdarshan.calorietracker.ui.settings.QuickActionsScreen
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Forum
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.unit.dp
 
 /**
  * Increments each time the app is opened: 1 on cold launch, then +1 on every
@@ -161,28 +170,41 @@ fun FudAINavHost(
     Scaffold(
         bottomBar = {
             if (showTabs) {
-                FudAIBottomNavBar(
-                    currentRoute = currentRoute,
-                    showAboutBadge = updateAvailable,
-                    workoutMode = workoutMode,
-                    onTap = { target ->
-                        if (target == currentRoute) return@FudAIBottomNavBar
-                        // Tapping HOME (the start destination) needs popBackStack
-                        // — `navigate(HOME) { popUpTo(HOME); launchSingleTop = true }`
-                        // is a no-op because NavController sees HOME at the top of
-                        // the stack and skips re-emitting currentBackStackEntry, so
-                        // the bar stays selected on the previous tab.
-                        if (target == FudAIRoutes.TODAY) {
-                            nav.popBackStack(FudAIRoutes.TODAY, inclusive = false)
-                        } else {
-                            nav.navigate(target) {
-                                popUpTo(FudAIRoutes.TODAY) { saveState = true }
-                                launchSingleTop = true
-                                restoreState = true
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    FudAIBottomNavBar(
+                        currentRoute = currentRoute,
+                        showAboutBadge = updateAvailable,
+                        workoutMode = workoutMode,
+                        onTap = { target ->
+                            if (target == currentRoute) return@FudAIBottomNavBar
+
+                            if (target == FudAIRoutes.TODAY) {
+                                nav.popBackStack(FudAIRoutes.TODAY, inclusive = false)
+                            } else {
+                                nav.navigate(target) {
+                                    popUpTo(FudAIRoutes.TODAY) { saveState = true }
+                                    launchSingleTop = true
+                                    restoreState = true
+                                }
                             }
-                        }
+                        },
+                        modifier = Modifier.weight(1f)
+                    )
+
+                    FloatingActionButton(
+                        onClick = { nav.navigate(FudAIRoutes.COACH) },
+                        modifier = Modifier
+                            .padding(end = 14.dp, bottom = 10.dp)
+                            .align(Alignment.CenterVertically)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Filled.Forum,
+                            contentDescription = "Coach"
+                        )
                     }
-                )
+                }
             }
         }
     ) { _ ->
